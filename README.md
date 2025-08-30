@@ -9,7 +9,7 @@ I must give a lot of credit to [this](https://baccini-al.medium.com/how-to-conta
 ```YAML
 services:
     runner:
-        image: beanbeanjuice/gh-actions-runner:latest
+        image: beanbeanjuice/gh-actions-docker:latest
         restart: unless-stopped
         environment:
             REPO: <owner>/<repo>
