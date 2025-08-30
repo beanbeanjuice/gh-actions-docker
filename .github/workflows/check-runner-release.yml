@@ -1,0 +1,26 @@
+name: Check Runner Releases
+
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+jobs:
+  check-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest runner version
+        id: get-version
+        run: |
+          version=$(curl -s https://api.github.com/repos/actions/runner/releases/latest | jq -r .tag_name)
+          echo "Latest release: $version"
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Trigger build workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          event-type: runner-release
+          client-payload: |
+            { "version": "${{ steps.get-version.outputs.version }}" }
