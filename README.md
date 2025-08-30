@@ -11,6 +11,7 @@ services:
     runner:
         image: beanbeanjuice/gh-actions-docker:latest
         restart: unless-stopped
+        privileged: true
         environment:
             REPO: <owner>/<repo>
             TOKEN: <github-pat>
